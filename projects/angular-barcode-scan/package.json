@@ -1,21 +1,19 @@
 {
   "name": "angular-barcode-scan",
   "author": "Diego Santiago - Cocodin Technology SL",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": ">=12.0.0",
     "@angular/core": ">=12.0.0",
     "@ionic/angular": ">=6.0.0",
-    "@ionic/core": ">=6.0.0",
-    "rxjs": ">=6.0.0"
+    "@ionic/core": ">=6.0.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": ">=2.3.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cocodinTech/angular-barcode-scan.git"
+    "url": "https://github.com/diegolijo/angular-barcode-scan/tree/master/projects/angular-barcode-scan"
   }
-
 }

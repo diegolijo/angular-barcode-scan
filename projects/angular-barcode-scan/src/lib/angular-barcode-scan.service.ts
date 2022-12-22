@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable, NgZone } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Subject } from 'rxjs';
@@ -20,6 +21,23 @@ export interface IDevice {
   manufacture: string;
   model: string;
 }
+
+
+export interface ICameraOptions {
+  preferFrontCamera?: boolean;     // iOS and Android
+  showFlipCameraButton?: boolean;  // iOS and Android
+  showTorchButton?: boolean;       // iOS and Android
+  torchOn?: boolean;               // Android, launch with the torch switched on (if available)
+  saveHistory?: boolean;           // Android, save scan history (default false)
+  prompt?: string;                 // Android mensaje inferior
+  resultDisplayDuration?: number;  // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+  formats?: string;                // QR_CODE,DATA_MATRIX,UPC_A,UPC_E,EAN_8,EAN_13,CODE_39,CODE_93,CODE_128,CODABAR,ITF,RSS14,PDF_417,RSS_EXPANDED,AZTEC default: all but PDF_417 and RSS_EXPANDED
+  orientation?: string;            // Android only (portrait|landscape), default unset so it rotates with the device
+  disableAnimations?: boolean;     // iOS
+  disableSuccessBeep?: boolean;    // iOS and Android
+  device?: string;
+}
+
 
 /**
  *  @name BarcodeScan
@@ -190,7 +208,7 @@ export class BarcodeScan {
    *
    * @returns la lectura del scanner
    */
-  public async scanBarcode(options?: any): Promise<string> {
+  public async scanBarcode(options?: ICameraOptions): Promise<string> {
     if (options) {
       options.device = this.hardware.model;
     }

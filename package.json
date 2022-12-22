@@ -10,7 +10,8 @@
     "build:lib": "ng-packagr -p projects/angular-barcode-scan/ng-package.json",
     "delete": "del-cli --force \"B:\\PROYECTOS\\_AVA projects\\IONIC\\testaSAT_prod\\local_npm\\angular-barcode-scan\"",
     "copy": "node -e \"require('copy-folders')('B:/PROYECTOS/_AVA projects/npm-libraries/angular-barcode-scan/dist/angular-barcode-scan','B:/PROYECTOS/_AVA projects/IONIC/testaSAT_prod/local_npm/angular-barcode-scan')\"",
-    "update-library":"npm run build:lib && npm run delete && npm run copy"
+    "update-library":"npm run build:lib && npm run delete && npm run copy",
+    "publish":"npm run build:lib && cd \".\\dist\\angular-barcode-scan\" && npm publish"
   },
   "private": true,
   "dependencies": {

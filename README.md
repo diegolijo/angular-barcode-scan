@@ -7,7 +7,7 @@ Servicio Angular para manejar el plugin Cordova: `bardode-scan`
   genera -> ./projects/nombre-librería
 
 
-# instalar herramienta transpilación de la librería
+# herramienta transpilación de la librería
 - npm i ng-packagr
 
 uso:
