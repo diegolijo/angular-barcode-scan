@@ -1,0 +1,20 @@
+# AngularBarcodeScan
+Servicio Angular para manejar el plugin Cordova: `bardode-scan`
+
+
+# generar la librería
+- ng generate library nombre-librería  
+  genera -> ./projects/nombre-librería
+
+
+# instalar herramienta transpilación de la librería
+- npm i ng-packagr
+
+uso:
+- añadir script a package.json del proyecto:
+ "scripts": { "nombre-del-script": "ng-packagr -p projects/nommbre-librería/ng-package.json" }
+- se lanza con ->  npm run nombre-del-script:
+  genera la librería transpilada -> dist/nombre-librería
+
+
+  https://medium.com/@insomniocode/creando-una-librer%C3%ADa-angular-y-subi%C3%A9ndola-a-npm-f78d212e8e71
