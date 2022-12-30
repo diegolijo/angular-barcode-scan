@@ -34,7 +34,6 @@ Servicio Angular para manejar el plugin Cordova: `bardode-scan`
    </ion-app>
 
   ```
-
  ## Usage
 
     import { Device } from '@awesome-cordova-plugins/device/ngx';
@@ -64,7 +63,7 @@ Servicio Angular para manejar el plugin Cordova: `bardode-scan`
                     saveHistory?: boolean;           // save scan history (default false)
                     prompt?: string;                 // Android mensaje inferior
                     resultDisplayDuration?: number;  // display scanned text for X ms. 0 suppresses it entirely, default 1500
-                    formats?: string;                // QR_CODE,DATA_MATRIX,UPC_A,UPC_E,EAN_8,EAN_13,CODE_39,CODE_93,CODE_128,CODABAR,ITF,RSS14,PDF_417,RSS_EXPANDED,AZTEC default: all but PDF_417 and RSS_EXPANDED
+                    formats?: string;                // QR_CODE, DATA_MATRIX, UPC_A, UPC_E, EAN_8, EAN_13, CODE_39, CODE_93, CODE_128, CODABAR, ITF, RSS14, PDF_417, RSS_EXPANDED, AZTEC default: all but PDF_417 and RSS_EXPANDED
                     orientation?: string;            // portrait | landscape, default unset so it rotates with the device
                     disableSuccessBeep?: boolean;    
                     device?: string;
@@ -73,9 +72,7 @@ Servicio Angular para manejar el plugin Cordova: `bardode-scan`
     this.scannerProvider.scanBarcode(Options?).then((result)=>{
          console.log(result);
       });
-
-    options:{}
-  
+ 
     ...
     this.barcodeScan.subscrbeToScan(this.subscribeKey,
        async (value) => {

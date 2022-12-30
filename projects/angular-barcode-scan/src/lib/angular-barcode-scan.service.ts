@@ -11,18 +11,14 @@ export interface IScanEvent {
   flag: string;
   result: any;
 }
-
 export interface ISubscriber {
   id: string;
   subscriber: any;
 }
-
 export interface IDevice {
   manufacture: string;
   model: string;
 }
-
-
 export interface ICameraOptions {
   preferFrontCamera?: boolean;     // iOS and Android
   showFlipCameraButton?: boolean;  // iOS and Android
@@ -37,7 +33,6 @@ export interface ICameraOptions {
   disableSuccessBeep?: boolean;    // iOS and Android
   device?: string;
 }
-
 
 /**
  *  @name BarcodeScan
@@ -66,7 +61,7 @@ export interface ICameraOptions {
  *
  *  app.component.html
  *  <ion-app>
- *    <barcode-host-listener></barcode-host-listener>
+ *    <barcode-host-listener [debug]="true"></barcode-host-listener>
  *    ...
  *  </ion-app>
  *
@@ -91,10 +86,9 @@ export interface ICameraOptions {
  *  await this.barcodeScan.clearBarcodeDevice();
  *
  *  ...
- *  this.scannerProvider.scanBarcode().then((result)=>{
- *       console.log(result);
- *    });
- *
+ *   this.scannerProvider.scanBarcode({disableSuccessBeep: true, showTorchButton: true,...}).then((result)=>{
+ *        console.log(result);
+ *   });
  *
  *  ...
  *  this.barcodeScan.subscrbeToScan(this.subscribeKey,
@@ -156,8 +150,8 @@ export class BarcodeScan {
   ) { }
 
   /**
-   * Selecciona el tipo de scanner de la lista de compatibles y habilita el lector dedidado.
-   * Se declara un objeto Subject<IScanEvent> al que podemos subscribirnos con .subscrbeToScan(...)
+   * Selecciona el tipo de scanner de la lista de compatibles y habilita el lector dedicado.
+   * Se declara un objeto Subject<IScanEvent> al que podemos suscribirnos con .subscrbeToScan(...)
    *
    * @param device posibles valores 'camera', 'c4050', 'NQuire300', 'EDA50K', 'ZebraMC33', 'UnitechEA300' (modelos correlativos) 'EA300', 'EA630', 'NQ300', 'TC20'
    * @returns el dispositivo seleccionado
@@ -190,7 +184,7 @@ export class BarcodeScan {
   }
 
   /**
-   * Inicia una lectura del hardware dedicado o lanza la camara para usarla como lector.
+   * Inicia una lectura del hardware dedicado o lanza la cámara para usarla como lector.
    * Cada vez que se produce un escaneo se propaga un Subject<IScanEvent>
    * camera options:   {
    *       preferFrontCamera : true,    // iOS and Android
@@ -219,7 +213,7 @@ export class BarcodeScan {
    * Declara un nuevo observable para escuchar los eventos del scanner
    *
    * @param id id único para declarar el observable.
-   * Si el id fue utilizado anteriormente y la subscripción aun está activa se aborta la operación
+   * Si el id fue utilizado anteriormente y la suscripción aun está activa se aborta la operación
    * @param callbackFunction
    * @param errorFunction
    */
@@ -246,7 +240,7 @@ export class BarcodeScan {
   /**
    * Se cierra el subscribe declarado con el id proporcionado
    *
-   * @param id id del observable para cancelar la subscripción
+   * @param id id del observable para cancelar la suscripción
    */
   public unSubscrbeToScan(id: string): void {
     if (this.subscribes[id] && !this.subscribes[id].subscriber.closed) {
@@ -255,10 +249,7 @@ export class BarcodeScan {
     };
   }
 
-
-
   /***************************************** llamadas al plugin *********************************************/
-
   private async getPluginModel(nativeModel: string): Promise<IDevice> {
     await this.platform.ready();
     return new Promise(async (resolve, reject) => {
@@ -284,7 +275,6 @@ export class BarcodeScan {
     });
   }
 
-
   private getDevices(): Promise<any> {
     return new Promise((resolve: any, reject: any) => {
       if (!this.platform.is('cordova')) {
@@ -302,7 +292,6 @@ export class BarcodeScan {
       }
     });
   }
-
 
   private enableScan(model: any): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
@@ -365,8 +354,5 @@ export class BarcodeScan {
       }
     });
   }
-
-
-
 
 }
