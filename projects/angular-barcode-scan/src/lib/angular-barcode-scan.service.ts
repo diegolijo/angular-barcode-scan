@@ -203,10 +203,17 @@ export class BarcodeScan {
    * @returns la lectura del scanner
    */
   public async scanBarcode(options?: ICameraOptions): Promise<string> {
-    if (options) {
-      options.device = this.hardware.model;
-    }
-    return await this.scan(options || this.hardware.model);
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (options) {
+          options.device = this.hardware.model;
+        }
+        const value = await this.scan(options || this.hardware.model);
+        resolve(value);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   /**
