@@ -216,6 +216,37 @@ export class BarcodeScan {
     });
   }
 
+
+  public async launchAndroidSettings(param: string): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const value = await this.launchSettings(param);
+        resolve(value);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+
+  /**
+   * Reproduce el archivo especificado por parámetro
+   *
+   * @param filePath la ruta bajo la carpeta assets. ej: 'audio/beep.mp3'
+   * @param callbackFunction
+   * @param errorFunction
+   */
+  public async play(filePath: string, volune: number): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const value = await this.nativePlay(filePath, volune);
+        resolve(value);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
   /**
    * Declara un nuevo observable para escuchar los eventos del scanner
    *
@@ -361,5 +392,39 @@ export class BarcodeScan {
       }
     });
   }
+
+  private nativePlay(filepath: string, volune: number): Promise<string> {
+    return new Promise((resolve: any, reject: any) => {
+      if (!this.platform.is('cordova')) {
+        const msg = 'Scanner plugin not available';
+        reject(msg);
+      }
+      if (this.platform.is('cordova')) {
+        cordova.plugins.BarcodeScan.play(filepath, volune, (value: any) => {
+          resolve(value);
+        }, (err: any) => {
+          reject(err);
+        });
+      }
+    });
+  }
+
+
+  private launchSettings(param: string): Promise<string> {
+    return new Promise((resolve: any, reject: any) => {
+      if (!this.platform.is('cordova')) {
+        const msg = 'Scanner plugin not available';
+        reject(msg);
+      }
+      if (this.platform.is('cordova')) {
+        cordova.plugins.BarcodeScan.launchAndroidSettings(param, (value: any) => {
+          resolve(value);
+        }, (err: any) => {
+          reject(err);
+        });
+      }
+    });
+  }
+
 
 }
