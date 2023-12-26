@@ -137,7 +137,8 @@ export class BarcodeScan {
     // modelos correlativos
     { model: 'EA300', index: 5 },
     { model: 'NQ300', index: 2 },
-    { model: 'TC20', index: 4 }
+    { model: 'TC20', index: 4 },
+    { model: 'TC26', index: 4 }
   ];
 
   private scanSubject = new Subject<IScanEvent>();
