@@ -116,6 +116,8 @@ export class BarcodeScan {
   /**
    * Fabricantes compatibles
    */
+
+  /*
   public static readonly Chainway: string = 'c4050';
   public static readonly Newland: string = 'NQuire300';
   public static readonly Honeywell: string = 'EDA50K';
@@ -123,6 +125,8 @@ export class BarcodeScan {
   public static readonly Unitech: string = 'UnitechEA300';
   public static readonly Unitech630: string = 'EA630';
   public static readonly ITOS: string = 'IT_51';
+  public static readonly ZebraNew: string = 'TC26';
+  */
 
   // lista de los modelos del plugin, y nuevos modelos asociados con alguno de los anteriores
   private readonly compatibleHardware: any[] = [
@@ -134,11 +138,11 @@ export class BarcodeScan {
     { model: 'UnitechEA300', index: 5 },
     { model: 'EA630', index: 6 },
     { model: 'IT_51', index: 7 },
+    { model: 'TC26', index: 8 },
     // modelos correlativos
     { model: 'EA300', index: 5 },
     { model: 'NQ300', index: 2 },
-    { model: 'TC20', index: 4 },
-    { model: 'TC26', index: 4 }
+    { model: 'TC20', index: 4 }
   ];
 
   private scanSubject = new Subject<IScanEvent>();
@@ -154,7 +158,8 @@ export class BarcodeScan {
    * Selecciona el tipo de scanner de la lista de compatibles y habilita el lector dedicado.
    * Se declara un objeto Subject<IScanEvent> al que podemos suscribirnos con .subscrbeToScan(...)
    *
-   * @param device posibles valores 'camera', 'c4050', 'NQuire300', 'EDA50K', 'ZebraMC33', 'UnitechEA300' (modelos correlativos) 'EA300', 'EA630', 'NQ300', 'TC20'
+   * @param device posibles valores 'camera', 'c4050', 'NQuire300', 'EDA50K', 'ZebraMC33', 'UnitechEA300', 'EA630','IT_51', 'TC26'
+   * o (modelos correlativos) 'EA300',  'NQ300', 'TC20'
    * @returns el dispositivo seleccionado
    */
   public async setBarcodeDevice(model: string): Promise<IDevice> {
@@ -179,6 +184,7 @@ export class BarcodeScan {
       { manufacture: 'Newland', model: 'NQuire300' },
       { manufacture: 'Honeywell', model: 'EDA50K' },
       { manufacture: 'Zebra', model: 'ZebraMC33' },
+      { manufacture: 'ZebraTC26', model: 'TC26' },
       { manufacture: 'Unitech', model: 'UnitechEA300' },
       { manufacture: 'Unitech630', model: 'EA630' },
       { manufacture: 'ITOS', model: 'IT_51' }];
