@@ -138,16 +138,17 @@ export class BarcodeScan {
     { model: 'UnitechEA300', index: 5 },
     { model: 'EA630', index: 6 },
     { model: 'IT_51', index: 7 },
-    { model: 'TC26', index: 8 },
     // modelos correlativos
     { model: 'EA300', index: 5 },
     { model: 'NQ300', index: 2 },
-    { model: 'TC20', index: 4 }
+    { model: 'TC20', index: 4 },
+    { model: 'TC26', index: 4 }
   ];
 
   private scanSubject = new Subject<IScanEvent>();
   private subscribes: any = {};
   private hardware: IDevice = { manufacture: 'Cámara', model: 'camera' };
+  private logs: boolean = false;
 
   constructor(
     private platform: Platform,
@@ -155,16 +156,25 @@ export class BarcodeScan {
   ) { }
 
   /**
+   * Habilita el log de eventos
+   */
+  public setLogs(value: boolean) {
+    this.logs = value;
+  }
+
+
+  /**
    * Selecciona el tipo de scanner de la lista de compatibles y habilita el lector dedicado.
    * Se declara un objeto Subject<IScanEvent> al que podemos suscribirnos con .subscrbeToScan(...)
    *
    * @param device posibles valores 'camera', 'c4050', 'NQuire300', 'EDA50K', 'ZebraMC33', 'UnitechEA300', 'EA630','IT_51', 'TC26'
    * o (modelos correlativos) 'EA300',  'NQ300', 'TC20'
+   * @param dimZebraDecos Habilita de forma dinámica todos los decodificadores de los dispositivos Zebra'
    * @returns el dispositivo seleccionado
    */
-  public async setBarcodeDevice(model: string): Promise<IDevice> {
+  public async setBarcodeDevice(model: string, dimZebraDecos?: boolean): Promise<IDevice> {
     this.hardware = await this.getPluginModel(model);
-    await this.enableScan(this.hardware.model);
+    await this.enableScan(this.hardware.model, dimZebraDecos);
     return this.hardware;
   }
 
@@ -184,7 +194,6 @@ export class BarcodeScan {
       { manufacture: 'Newland', model: 'NQuire300' },
       { manufacture: 'Honeywell', model: 'EDA50K' },
       { manufacture: 'Zebra', model: 'ZebraMC33' },
-      { manufacture: 'ZebraTC26', model: 'TC26' },
       { manufacture: 'Unitech', model: 'UnitechEA300' },
       { manufacture: 'Unitech630', model: 'EA630' },
       { manufacture: 'ITOS', model: 'IT_51' }];
@@ -326,7 +335,7 @@ export class BarcodeScan {
       }
       if (this.platform.is('cordova')) {
         cordova.plugins.BarcodeScan.getDevices((res: any) => {
-          console.log('%c getDevices: ' + JSON.stringify(res), 'color:orange');
+          this.logs && console.log('%c getDevices: ' + JSON.stringify(res), 'color:orange');
           this.scanSubject.next({ flag: BarcodeScan.EVENT_GET_DEVICES, result: res });
           resolve(res);
         }, (err: any) => {
@@ -336,14 +345,14 @@ export class BarcodeScan {
     });
   }
 
-  private enableScan(model: any): Promise<string> {
+  private enableScan(model: any, dimZebraDecos?: boolean): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
       if (!this.platform.is('cordova') || this.platform.is('ios')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
         cordova.plugins.BarcodeScan.enable(model, (value: any) => {
-          console.log('%c enableScan: ' + JSON.stringify(value), 'color:purple');
+          this.logs && console.log('%c enableScan: ' + JSON.stringify(value), 'color:blue');
           if (model !== 'camera' && value.text) {
             this.scanSubject.next({ flag: BarcodeScan.EVENT_ENABLE, result: value.text });
             this.scanSubject.next({ flag: BarcodeScan.EVENT_SCAN, result: value.text });
@@ -351,7 +360,7 @@ export class BarcodeScan {
           resolve(true);
         }, (err: any) => {
           reject(err);
-        });
+        }, dimZebraDecos);
       }
     });
   }
@@ -381,7 +390,7 @@ export class BarcodeScan {
       }
       if (this.platform.is('cordova')) {
         cordova.plugins.BarcodeScan.scan(model, (value: any) => {
-          console.log('%c Scan: ' + JSON.stringify(value), 'color:green');
+          this.logs && console.log('%c Scan: ' + JSON.stringify(value), 'color:green');
           if (value.text) {
             this.scanSubject.next({ flag: BarcodeScan.EVENT_SCAN, result: value.text });
           } else if (value.cancelled) {
