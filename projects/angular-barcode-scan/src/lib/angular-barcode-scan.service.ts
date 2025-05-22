@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable max-len */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -148,7 +149,7 @@ export class BarcodeScan {
   private scanSubject = new Subject<IScanEvent>();
   private subscribes: any = {};
   private hardware: IDevice = { manufacture: 'Cámara', model: 'camera' };
-  private logs: boolean = false;
+  private logs!: boolean;
 
   constructor(
     private platform: Platform,
@@ -308,7 +309,7 @@ export class BarcodeScan {
     await this.platform.ready();
     return new Promise(async (resolve, reject) => {
       try {
-        if (!this.platform.is('cordova') || this.platform.is('ios')) {
+        if (!this.platform.is('cordova')) {
           reject('Scanner plugin not available');
         }
         if (this.platform.is('cordova')) {
@@ -330,7 +331,7 @@ export class BarcodeScan {
 
   private getDevices(): Promise<any> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
@@ -347,7 +348,7 @@ export class BarcodeScan {
 
   private enableScan(model: any, dimZebraDecos?: boolean): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
@@ -367,7 +368,7 @@ export class BarcodeScan {
 
   private disableScan(model: any): Promise<boolean> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (model) {
@@ -385,7 +386,7 @@ export class BarcodeScan {
 
   private scan(model: any): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
@@ -406,7 +407,7 @@ export class BarcodeScan {
 
   private nativePlay(filepath: string, volune: number): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
@@ -422,7 +423,7 @@ export class BarcodeScan {
 
   private launchSettings(param: string): Promise<string> {
     return new Promise((resolve: any, reject: any) => {
-      if (!this.platform.is('cordova') || this.platform.is('ios')) {
+      if (!this.platform.is('cordova')) {
         reject('Scanner plugin not available');
       }
       if (this.platform.is('cordova')) {
